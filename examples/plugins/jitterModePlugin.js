@@ -4,11 +4,17 @@ module.exports = function (API) {
     Object.setPrototypeOf(this, Plugin.prototype);
     Plugin.call(this, "Jitter Mode", false, {
       version: "0.1",
-      author: "Luks",
+      author: "Luks & 0x532",
       description: `This plugin will make you jitter in circle.`,
       allowFlags: AllowFlags.JoinRoom | AllowFlags.CreateRoom
     });
-  
+    
+    this.defineVariable({
+      name:"triggerKeys",
+      description:"Keys to start jitter mode",
+      type:VariableType.Keys,
+      value:["KeyZ"]
+    })
   
     this.defineVariable({
       name: "moveInterval",
@@ -23,7 +29,7 @@ module.exports = function (API) {
   
     var that = this, interval, active = false;
     this.onKeyDown = function(e){
-      if (e.code=="KeyZ") active = !active
+      if (that.triggerKeys.includes(e.code)) active = !active
     }
     function jitterCircle(jitterInt){
   
